@@ -1,0 +1,27 @@
+customerId,date,time,reason,branch,banker
+1,2024-03-01,09:00,Open new account,Main Branch,John Banker
+1,2024-03-15,14:30,Loan consultation,West Branch,Mary Banker
+2,2024-04-01,10:00,Review mortgage rates,East Branch,Karen Banker
+,,,,,
+,,,,,
+2,2025-04-30,10:00,Based on your previous bookings, you are customer ID 1. Your last appointment was on March 15, 2024
+,,,,,
+To schedule your next regular appointment, I can suggest a similar time slot. How about scheduling your appointment for March 29, 2024, at 14:30 with Mary Banker at the West Branch? Does that work for you?,Main Branch,Assigned Banker
+2,2025-04-30,10:00,I will proceed to schedule your appointment for March 29, 2024, at 14:30 with Mary Banker at the West Branch. 
+,,,,,
+Please hold on for a moment while I confirm the booking. ,,,,,
+,,,,,
+[Booking in progress...],,,,,
+,,,,,
+Your appointment has been successfully scheduled! You will receive a confirmation shortly. If you need any further assistance or wish to make any changes, feel free to let me know!,Main Branch,Assigned Banker,,
+guest,2025-04-30,10:00,Could you please provide me with the specific date or time frame you are interested in checking for available appointment slots?,Main Branch,Assigned Banker
+guest,2025-04-30,10:00,Unfortunately, it seems that the West Branch does not have any scheduled appointments for opening a bank account at 4:00 PM tomorrow. Would you like to choose a different time or branch, or would you prefer to schedule an appointment for a later date?
+guest,2025-04-30,10:00,Please let me know your preferred date and time for the appointment, and I will check the availability at the branches for you.,Main Branch
+guest,2025-04-30,10:00,It looks like there are no scheduled appointments available for opening a bank account at the West Branch at 4:00 PM tomorrow. Would you like to choose a different time or branch, or would you prefer to schedule an appointment for a later date?,Main Branch
+guest,2025-04-30,10:00,Great! Please let me know your preferred date and time for the appointment, and I will check the availability at the branches for you.,Main Branch
+guest,2025-04-30,10:00,Could you please provide me with your preferred time for the appointment tomorrow? I will check the availability at the branches for you.,Main Branch,Assigned Banker
+guest,2025-04-30,10:00,Thank you for your preferred time. I will check the availability for an appointment at 12 PM tomorrow. Please hold on for a moment. ,,
+,,,,,
+Unfortunately, it seems that the West Branch does not have any scheduled appointments available for opening a bank account at 12 PM tomorrow. Would you like to choose a different time or branch, or would you prefer to schedule an appointment for a later date?,Main Branch,Assigned Banker,
+guest,2025-04-30,10:00,It looks like you're inquiring about the Main Branch. How can I assist you further? Are you looking to schedule an appointment, check availability, or get information about services?
+guest,2025-04-30,10:00,I see that your last appointment was on March 15, 2024, for a loan consultation with Mary Banker at the West Branch. Would you like me to schedule a follow-up appointment with Mary Banker? If so, please provide me with your preferred date and time, and I will check the availability for you.,Main Branch,Assigned Banker

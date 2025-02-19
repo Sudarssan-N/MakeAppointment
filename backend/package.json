@@ -1,0 +1,16 @@
+{
+    "name": "my-appointment-app",
+    "version": "1.0.0",
+    "description": "Appointment scheduling application using OpenAI and CSV/Salesforce integration.",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "cors": "^2.8.5",
+      "dotenv": "^16.0.3",
+      "express": "^4.18.2",
+      "csv-parser": "^3.0.0",
+      "openai": "^3.2.1"
+    }
+  }

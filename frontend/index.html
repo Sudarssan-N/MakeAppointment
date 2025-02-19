@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Make an Appointment</title>
+  <style>
+    /* Basic reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background-color: #f8f8f8; color: #333; }
+    header { background-color: #c10000; color: #fff; padding: 1rem; text-align: center; font-size: 1.5rem; }
+    main { max-width: 800px; margin: 2rem auto; background: #fff; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 2rem; }
+    h2, h3 { text-align: center; margin-bottom: 1rem; }
+    
+    /* Landing Section */
+    #landing-section { text-align: center; }
+    .button-row { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; }
+    .button-row button { padding: 1rem 2rem; font-size: 1rem; cursor: pointer; border: none; border-radius: 4px; background-color: #e6e6e6; transition: background-color 0.2s ease; }
+    .button-row button:hover { background-color: #ccc; }
+    
+    /* Sign-on Form */
+    #signon-section { display: none; max-width: 300px; margin: 1rem auto; }
+    #signon-form label { display: block; margin: 0.5rem 0 0.25rem; }
+    #signon-form input[type="text"],
+    #signon-form input[type="password"] { width: 100%; padding: 0.5rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 4px; }
+    #signon-form button { width: 100%; padding: 0.75rem; border: none; border-radius: 4px; background-color: #c10000; color: #fff; font-size: 1rem; cursor: pointer; }
+    #signon-form button:hover { background-color: #a10000; }
+    
+    /* Chat / Appointment Interface */
+    #chat-section { display: none; margin: 2rem auto; max-width: 600px; }
+    .chat-header { text-align: center; margin-bottom: 1rem; }
+    .prompt-suggestions { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 2rem; }
+    .prompt-suggestions button { background-color: #f1f1f1; padding: 0.75rem 1rem; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.2s ease; }
+    .prompt-suggestions button:hover { background-color: #ddd; }
+    .chat-input { display: flex; gap: 1rem; margin-top: 1rem; }
+    .chat-input input { flex: 1; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; }
+    .chat-input button { padding: 0.75rem 1.5rem; border: none; border-radius: 4px; background-color: #c10000; color: #fff; cursor: pointer; transition: background-color 0.2s ease; }
+    .chat-input button:hover { background-color: #a10000; }
+    #chat-log { margin-top: 1rem; padding: 1rem; border: 1px solid #ccc; border-radius: 4px; min-height: 100px; background: #fafafa; overflow-y: auto; }
+    
+    footer { text-align: center; font-size: 0.8rem; color: #777; margin: 2rem 0; }
+  </style>
+</head>
+<body>
+
+<header>
+  Make an Appointment
+</header>
+
+<main>
+  <!-- Landing Section: choose between sign on and guest -->
+  <section id="landing-section">
+    <h2>Welcome!</h2>
+    <div class="button-row">
+      <button id="btn-signon">Sign On</button>
+      <button id="btn-guest">Continue as Guest</button>
+    </div>
+  </section>
+
+  <!-- Sign-On Section -->
+  <section id="signon-section">
+    <h2>Sign On</h2>
+    <div id="signon-form">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter your username" />
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your password" />
+      <button id="login-btn">Sign On</button>
+    </div>
+  </section>
+
+  <!-- Chat / Appointment Section -->
+  <section id="chat-section">
+    <div class="chat-header">
+      <h3>Welcome, <span id="customer-name"></span>!</h3>
+      <p>Select a prompt or type your query below to book an appointment.</p>
+    </div>
+    <div class="prompt-suggestions">
+      <button class="prompt-btn" data-prompt="Schedule my regular appointment based on my previous booking time slots and location with the banker that I previously booked with">Regular Appointment</button>
+      <button class="prompt-btn" data-prompt="I need a follow up appointment for consultation on the follow up on my previous visit">New Consultation</button>
+      <button class="prompt-btn" data-prompt="Check available appointment slots">Check Slots</button>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="chat-input" placeholder="Type your message..." />
+      <button id="chat-send-btn">Send</button>
+    </div>
+    <div id="chat-log"></div>
+  </section>
+</main>
+
+<footer>
+  © 2025 Your Company Name. All rights reserved.
+</footer>
+
+<script>
+  // Global variable for storing customer identifier (could be from sign-on or guest)
+  let currentCustomerId = null;
+
+  // Element references
+  const landingSection = document.getElementById('landing-section');
+  const signonSection = document.getElementById('signon-section');
+  const chatSection = document.getElementById('chat-section');
+  const btnSignon = document.getElementById('btn-signon');
+  const btnGuest = document.getElementById('btn-guest');
+  const loginBtn = document.getElementById('login-btn');
+  const customerNameSpan = document.getElementById('customer-name');
+  const chatInput = document.getElementById('chat-input');
+  const chatSendBtn = document.getElementById('chat-send-btn');
+  const chatLog = document.getElementById('chat-log');
+  const promptButtons = document.querySelectorAll('.prompt-btn');
+
+  // Landing page actions: choose sign-on or guest
+  btnSignon.addEventListener('click', () => {
+    landingSection.style.display = 'none';
+    signonSection.style.display = 'block';
+  });
+
+  btnGuest.addEventListener('click', () => {
+    landingSection.style.display = 'none';
+    // For guest users, assign a default ID and update name
+    currentCustomerId = 'guest';
+    customerNameSpan.textContent = 'Guest';
+    chatSection.style.display = 'block';
+  });
+
+  // Sign-on form submission
+  loginBtn.addEventListener('click', async () => {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    if (!username || !password) {
+      alert('Please enter both username and password.');
+      return;
+    }
+    try {
+      const res = await fetch('/api/signon', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      if (!res.ok) {
+        alert('Sign on failed. Please check your credentials.');
+        return;
+      }
+      const data = await res.json();
+      console.log('Sign on success:', data);
+      currentCustomerId = data.customerId;
+      customerNameSpan.textContent = data.customerName;
+      // Hide sign-on section and show chat section
+      signonSection.style.display = 'none';
+      chatSection.style.display = 'block';
+    } catch (error) {
+      console.error('Error during sign on:', error);
+      alert('An error occurred during sign on.');
+    }
+  });
+
+  // When a prompt suggestion is clicked, populate the chat input with that prompt
+  promptButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      chatInput.value = button.dataset.prompt;
+    });
+  });
+
+  // Chat send button: send message to LLM and create an appointment based on response
+  chatSendBtn.addEventListener('click', async () => {
+    const userMessage = chatInput.value.trim();
+    if (!userMessage) return;
+    appendToChatLog('You: ' + userMessage);
+    chatInput.value = '';  // Clear the input
+
+    try {
+      // Call the LLM endpoint
+      const llmRes = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: userMessage,
+          context: 'Additional context (e.g., customer history) if needed'
+        })
+      });
+      if (!llmRes.ok) {
+        appendToChatLog('Error: Could not get a response from the assistant.');
+        return;
+      }
+      const llmData = await llmRes.json();
+      const llmResponse = llmData.response;
+      appendToChatLog('Assistant: ' + llmResponse);
+
+      // Attempt to parse LLM response into structured appointment details
+      let appointmentDetails;
+      try {
+        appointmentDetails = JSON.parse(llmResponse);
+      } catch (e) {
+        // Fallback: use the response as the appointment "reason" with default values
+        appointmentDetails = {
+          date: '2025-04-30',  // default or derived date
+          time: '10:00',
+          reason: llmResponse,
+          branch: 'Main Branch',
+          banker: 'Assigned Banker'
+        };
+      }
+      // Include the customer identifier in the appointment details
+      appointmentDetails.customerId = currentCustomerId;
+
+      // POST the appointment details to the backend
+      const apptRes = await fetch('/api/appointments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(appointmentDetails)
+      });
+      if (!apptRes.ok) {
+        console.error('Error during appointment creation:', apptRes);
+        appendToChatLog('Error: Something went wrong while processing your request.');
+        return;
+      }
+    } catch (err) {
+      console.error('Error during LLM/appointment creation:', err);
+      appendToChatLog('Error: Something went wrong while processing your request.');
+    }
+  });
+
+  // Helper function to append messages to the chat log
+  function appendToChatLog(message) {
+    const p = document.createElement('p');
+    p.textContent = message;
+    chatLog.appendChild(p);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+</script>
+
+</body>
+</html>
