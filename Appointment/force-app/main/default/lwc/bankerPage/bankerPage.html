@@ -1,0 +1,10 @@
+<template>
+    <lightning-card title="Schedule an Appointment" icon-name="standard:event">
+        <div class="slds-p-around_medium">
+            <lightning-input label="Customer ID" value={customerId} onchange={handleInputChange} name="customerId"></lightning-input>
+            <lightning-input type="datetime" label="Appointment Date & Time" value={appointmentDateTime} onchange={handleInputChange} name="appointmentDateTime"></lightning-input>
+            <lightning-combobox label="Purpose" value={purpose} options={purposeOptions} onchange={handleInputChange} name="purpose"></lightning-combobox>
+            <lightning-button label="Schedule" variant="brand" onclick={handleSchedule}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

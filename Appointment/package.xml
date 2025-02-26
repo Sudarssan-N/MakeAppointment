@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+  <types>
+    <members>*</members>
+    <name>ApexClass</name>
+  </types>
+  <types>
+    <members>*</members>
+    <name>LightningComponentBundle</name>
+  </types>
+  <types>
+    <members>Appointment__c</members>
+    <members>Banker__c</members>
+    <name>CustomObject</name>
+  </types>
+  <types>
+    <members>Plan_My_Day</members>
+    <name>CustomApplication</name>
+  </types>
+  <!-- Retrieve all Lightning Pages -->
+  <!-- <types>
+    <members>*</members>
+    <name>LightningPage</name>
+  </types> -->
+  <version>52.0</version>
+</Package>
